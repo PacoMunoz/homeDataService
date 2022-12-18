@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: DataCollector
+  description: |-
+    This is a simple API to collect data from IOT Sensors
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: iicc96@hotmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /data:
+    post:
+      tags:
+        - data
+      summary: Add a new data to the database
+      description: Add a new data to the database
+      operationId: addData
+      requestBody:
+        description: Add a new data to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Data'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Data'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Data'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '405':
+          description: Invalid input
+components:
+  schemas:
+    Data:
+      required:
+        - temperature
+        - humidity
+        - date
+        - location
+      type: object
+      properties:
+        temperature:
+          type: number
+          format: int64
+          description: temperature value
+          example: 10.50
+        humidity:
+          type: number
+          format: int64
+          description: humidity value
+          example: 60.50
+        date:
+          type: string
+          # format: date-time
+          description: date when getting the data
+        location:
+          type: string
+          description: sensor position
+      xml:
+        name: data
+  requestBodies:
+    Data:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Data'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Data'
