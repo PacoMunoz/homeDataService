@@ -1,6 +1,6 @@
 # homeDataService
 
-Una API Rest que utiliza Spring Boot y que se genera utilizando el fichero el plugin de maven para OpenApi generator
+Una API Rest que utiliza Spring Boot y que se genera utilizando el plugin de maven para OpenApi generator
 project.
 
 OpenAPI specification file -> resources/restAPI.yalm
