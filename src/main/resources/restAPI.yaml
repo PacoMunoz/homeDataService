@@ -42,12 +42,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Data'          
-            application/xml:
-              schema:
                 $ref: '#/components/schemas/Data'
         '405':
           description: Invalid input
+  /data/getLastTempByLoc:
+    get:
+      tags:
+        - temperature
+      summary: get the last temperature data from a location
+      description: get the last temperature data from a location
+      operationId: getLastTempByLoc
+      parameters:
+        - name: location
+          in: query
+          description: the location you want retrieve data from
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '400':
+          description: Invalid location supplied
+
 components:
   schemas:
     Data:
