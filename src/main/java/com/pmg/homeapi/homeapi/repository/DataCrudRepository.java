@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface DataCrudRepository extends MongoRepository<DataDocument, String> {
 
-    List<DataDocument> find
+    
 
 }

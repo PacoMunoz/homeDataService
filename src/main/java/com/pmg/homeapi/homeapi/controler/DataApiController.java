@@ -5,6 +5,7 @@ import com.pmg.homeapi.homeapi.model.DataDocument;
 import com.pmg.homeapi.homeapi.repository.DataCrudRepository;
 import com.pmg.homeapi.model.Data;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class DataApiController implements DataApi {
 
@@ -24,18 +26,26 @@ public class DataApiController implements DataApi {
     @Override
     public ResponseEntity<Data> addData(@ApiParam(value = "Add a new data to the database" ,required=true )
                                             @Valid @RequestBody Data data) {
+        dataCrudRepository.save(dataToDataDocument(data));
+        writeLog(data);
+        return ResponseEntity.ok(data);
+    }
+
+    private void writeLog(Data data) {
+        log.info("Almacenado:");
+        log.info(String.format("Fecha: %s", data.getDate()));
+        log.info(String.format("Temperatura: %f", data.getTemperature()));
+        log.info(String.format("Humedad: %f", data.getHumidity()));
+        log.info(String.format("Location: %s", data.getLocation()));
+    }
+
+    private DataDocument dataToDataDocument(Data data) {
         DataDocument dataDocument = new DataDocument();
-        dataDocument.setDate(data.getDate().toString());
+        dataDocument.setDate(data.getDate());
         dataDocument.setHumidity(data.getHumidity());
         dataDocument.setTemperature(data.getTemperature());
         dataDocument.setLocation(data.getLocation());
-        dataCrudRepository.save(dataDocument);
-        System.out.println("Almacenado:");
-        System.out.printf("Fecha: %s%n", data.getDate());
-        System.out.printf("Temperatura: %f%n", data.getTemperature());
-        System.out.printf("Humedad: %f%n", data.getHumidity());
-        System.out.printf("Location: %s%n", data.getLocation());
-        return ResponseEntity.ok(data);
+        return dataDocument;
     }
 
     @Override
